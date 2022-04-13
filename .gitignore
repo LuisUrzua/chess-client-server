@@ -1,0 +1,5 @@
+bin/
+obj/
+include/*.swp
+src/*.swp
+[0-9]*
