@@ -7,8 +7,8 @@ SRC := $(wildcard $(SRC_DIR)/*.cpp)
 OBJ := $(subst $(SRC_DIR),$(OBJ_DIR),$(SRC:.cpp=.o))
 DEP := $(OBJ:.o=.d)
 
-CLIENT_OBJ := $(filter-out $(OBJ_DIR)/server.o,$(OBJ))
-SERVER_OBJ := $(filter-out $(OBJ_DIR)/client.o,$(OBJ))
+CLIENT_OBJ := $(filter-out $(OBJ_DIR)/Server.o,$(OBJ))
+SERVER_OBJ := $(filter-out $(OBJ_DIR)/Client.o,$(OBJ))
 
 .PHONY: clean client server
 
