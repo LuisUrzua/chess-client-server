@@ -10,6 +10,8 @@ public:
 	std::string ReadInput();
 
 private:
+	bool CorrectInputLength(const std::string&);
+	bool CorrectFormat(std::string&);
 };
 
 #endif

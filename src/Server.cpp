@@ -6,6 +6,7 @@
 int main()
 {
     std::cout << "Server" << std::endl;
+    std::cout << "severus" << std::endl;
 
     Socket socket(SocketType::Server);
     Input input_server;
