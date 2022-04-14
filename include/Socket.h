@@ -1,6 +1,8 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
+#include <string>
+
 #define BYTES_PER_MESSAGE 1024
 
 enum class SocketType
@@ -13,8 +15,8 @@ class Socket
 {
 public:
 	Socket(SocketType);
-	void Read();
-	void Send();
+	std::string Read();
+	void Send(const std::string&);
 
 private:
 	void CreateSocket();
