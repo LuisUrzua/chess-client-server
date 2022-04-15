@@ -181,4 +181,26 @@ void Board::MovePiece(const std::string& user_input)
 	move_this_piece->SetColumnRow(new_column, new_row);
 	squares_on_board.at({ current_column, current_row }).RemovePieceOnSquare();
 	squares_on_board.at({ new_column, new_row }).InsertPiece(move_this_piece);
+
+	/*
+	if (move_type == MoveType::Move)
+	{
+		move_this_piece->SetColumnRow(new_column, new_row);
+		squares_on_board.at({ current_column, current_row }).RemovePieceOnSquare();
+		squares_on_board.at({ new_column, new_row }).InsertPiece(move_this_piece);
+	}
+	else if (move_type == MoveType::Capture)
+	{
+
+	}
+	else if (move_type == MoveType::Enpassant)
+	{
+
+	}
+	else if (move_type == MoveType::Castle)
+	{
+
+	}
+	etc.
+	*/
 }

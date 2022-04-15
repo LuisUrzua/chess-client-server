@@ -21,6 +21,8 @@ public:
 	Piece* GetPieceFromBoard(const int&, const int&) const;
 	bool CorrectUserInput(const std::string&, const PieceColor&) const;
 	void MovePiece(const std::string&);
+	// bool Stalemate();
+	// bool Checkmate();
 
 private:
 	MapOfSquares squares_on_board;
