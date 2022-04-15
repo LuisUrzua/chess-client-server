@@ -65,7 +65,18 @@ void Board::PrintBoard() const
 			squares_on_board.at({ column, row }).PrintSquare();
 		}
 
+		std::cout << row << std::endl;
 		std::cout << "   ";
 		std::cout << std::string(8 * 3, '-') << std::endl;
 	}
+
+	std::cout << "   ";
+	std::cout << " A ";
+	std::cout << " B ";
+	std::cout << " C ";
+	std::cout << " D ";
+	std::cout << " E ";
+	std::cout << " F ";
+	std::cout << " G ";
+	std::cout << " H " << std::endl;
 }
