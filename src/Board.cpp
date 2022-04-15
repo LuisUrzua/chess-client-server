@@ -44,17 +44,10 @@ Board::Board()
 
 void Board::PrintBoard() const
 {
-	std::cout << "   ";
-	std::cout << " A ";
-	std::cout << " B ";
-	std::cout << " C ";
-	std::cout << " D ";
-	std::cout << " E ";
-	std::cout << " F ";
-	std::cout << " G ";
-	std::cout << " H " << std::endl;
-	std::cout << "   ";
-	std::cout << std::string(8*3, '-') << std::endl;
+	const char border = '-';
+	const int chars_per_column = 8 * 3;
+	std::cout << "   " << " A " << " B " << " C " << " D " << " E " << " F " << " G " << " H " << std::endl;
+	std::cout << "   " << std::string(chars_per_column, border) << std::endl;
 
 	for (int row = ROW_8; row >= ROW_1; row -= ROW_1)
 	{
@@ -66,17 +59,8 @@ void Board::PrintBoard() const
 		}
 
 		std::cout << row << std::endl;
-		std::cout << "   ";
-		std::cout << std::string(8 * 3, '-') << std::endl;
+		std::cout << "   " << std::string(chars_per_column, border) << std::endl;
 	}
 
-	std::cout << "   ";
-	std::cout << " A ";
-	std::cout << " B ";
-	std::cout << " C ";
-	std::cout << " D ";
-	std::cout << " E ";
-	std::cout << " F ";
-	std::cout << " G ";
-	std::cout << " H " << std::endl;
+	std::cout << "   " << " A " << " B " << " C " << " D " << " E " << " F " << " G " << " H " << std::endl << std::endl;
 }
