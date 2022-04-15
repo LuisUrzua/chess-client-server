@@ -21,17 +21,6 @@ Socket::Socket(SocketType client_or_server)
 
     CreateSocket();
     Connect();
-
-    //if (socket_type == SocketType::Client)
-    //{
-    //    Send();
-    //    Read();
-    //}
-    //else if (socket_type == SocketType::Server)
-    //{
-    //    Read();
-    //    Send();
-    //}
 }
 
 void Socket::CreateSocket()
@@ -84,8 +73,10 @@ void Socket::Connect()
         /* Converts the unsigned short integer hostshort from host byte order to network byte order */
         address.sin_port = htons(PORT);
 
+        std::cout << "Connecting to server..." << std::endl;
+
         /* Convert IPv4 addresse from text to binary form */
-        if ((inet_pton(AF_INET, DESKTOP_SERVER_ADDRESS, &address.sin_addr)) <= 0)
+        if ((inet_pton(AF_INET, LAPTOP_SERVER_ADDRESS, &address.sin_addr)) <= 0)
         {
             error = errno;
             PrintError(error);
@@ -110,6 +101,8 @@ void Socket::Connect()
         int address_length = sizeof(address);
         /* backlog is the maximum number of pending connection requests on socket_int */
         const int backlog = 3;
+
+        std::cout << "Waiting for client to connect..." << std::endl;
 
         /* bind a name to a socket */
         if (bind(socket_int, (struct sockaddr*)&address, sizeof(address)) < 0)
@@ -141,12 +134,10 @@ std::string Socket::Read()
     if (socket_type == SocketType::Client)
     {
         read(socket_int, read_buffer, BYTES_PER_MESSAGE);
-        //std::cout << "Message Received: " << std::string(read_buffer) << std::endl;
     }
     else if (socket_type == SocketType::Server)
     {
         read(socket_new, read_buffer, BYTES_PER_MESSAGE);
-        //std::cout << "Message Received: " << std::string(read_buffer) << std::endl;
     }
 
     return std::string(read_buffer);
@@ -158,19 +149,13 @@ void Socket::Send(const std::string& string_to_send)
 
     if (socket_type == SocketType::Client)
     {
-        //std::string temp = "Hey, Now!";
-        //std::strcpy(send_buffer, temp.c_str());
         std::strcpy(send_buffer, string_to_send.c_str());
         send(socket_int, send_buffer, strlen(send_buffer), flags);
-        //std::cout << "Message Sent: " << std::string(send_buffer) << std::endl;
     }
     else if (socket_type == SocketType::Server)
     {
-        //std::string temp = "Hey, Now!";
-        //std::strcpy(send_buffer, temp.c_str());
         std::strcpy(send_buffer, string_to_send.c_str());
         send(socket_new, send_buffer, strlen(send_buffer), flags);
-        //std::cout << "Message Sent: " << std::string(send_buffer) << std::endl;
     }
 }
 

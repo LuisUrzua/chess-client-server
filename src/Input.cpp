@@ -6,8 +6,8 @@
 #define ASCII_A 0x41
 #define ASCII_H 0x48
 #define ASCII_1 0x31
-#define ASCII_8 0x39
-#define ASCII_WHITESPACE 0x20
+#define ASCII_8 0x38
+#define ASCII_FORWARD_SLASH 0x2F
 
 Input::Input()
 {
@@ -52,7 +52,7 @@ bool Input::CorrectFormat(std::string& user_input)
 {
 	const int source_column_index = 0;
 	const int source_row_index = 1;
-	const int whitespace_index = 2;
+	const int forward_slash_index = 2;
 	const int destination_column_index = 3;
 	const int destination_row_index = 4;
 
@@ -60,7 +60,7 @@ bool Input::CorrectFormat(std::string& user_input)
 
 	const char source_column_char = user_input.at(source_column_index);
 	const int source_row_char = user_input.at(source_row_index);
-	const int whitespace_char = user_input.at(whitespace_index);
+	const int forward_slash_char = user_input.at(forward_slash_index);
 	const int destination_column_char = user_input.at(destination_column_index);
 	const int destination_row_char = user_input.at(destination_row_index);
 
@@ -72,7 +72,7 @@ bool Input::CorrectFormat(std::string& user_input)
 	{
 		return false;
 	}
-	else if (whitespace_char != ASCII_WHITESPACE)
+	else if (forward_slash_char != ASCII_FORWARD_SLASH)
 	{
 		return false;
 	}

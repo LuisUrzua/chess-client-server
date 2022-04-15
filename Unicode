@@ -1,0 +1,28 @@
+﻿white chess king 	♔ 	U+2654	const std::string white_king_unicode = "\u2654";
+white chess queen 	♕ 	U+2655	const std::string white_queen_unicode = "\u2655";
+white chess rook 	♖ 	U+2656	const std::string white_rook_unicode = "\u2656";
+white chess bishop 	♗ 	U+2657	const std::string white_knight_unicode = "\u2658";
+white chess knight 	♘ 	U+2658	const std::string white_bishop_unicode = "\u2657";
+white chess pawn 	♙ 	U+2659	const std::string white_pawn_unicode = "\u2659";
+black chess king 	♚ 	U+265A	const std::string black_king_unicode = "\u265A";
+black chess queen 	♛ 	U+265B	const std::string black_queen_unicode = "\u265B";
+black chess rook 	♜ 	U+265C	const std::string black_rook_unicode = "\u265C";
+black chess bishop 	♝ 	U+265D	const std::string black_bishop_unicode = "\u265D";
+black chess knight 	♞ 	U+265E	const std::string black_knight_unicode = "\u265E";
+black chess pawn 	♟ 	U+265F	const std::string black_pawn_unicode = "\u265F";
+
+/* switch white and black unicodes */
+/* white pieces appear black on the linux terminal */
+const std::string black_pawn_unicode = "\u2659";
+const std::string black_knight_unicode = "\u2658";
+const std::string black_bishop_unicode = "\u2657";
+const std::string black_rook_unicode = "\u2656";
+const std::string black_queen_unicode = "\u2655";
+const std::string black_king_unicode = "\u2654";
+
+const std::string white_pawn_unicode = "\u265F";
+const std::string white_knight_unicode = "\u265E";
+const std::string white_bishop_unicode = "\u265D";
+const std::string white_rook_unicode = "\u265C";
+const std::string white_queen_unicode = "\u265B";
+const std::string white_king_unicode = "\u265A";
