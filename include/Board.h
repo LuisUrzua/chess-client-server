@@ -6,6 +6,8 @@
 #include <map>
 #include <vector>
 
+enum class PieceColor;
+
 class Piece;
 
 typedef std::map<std::pair<int, int>, Square> MapOfSquares;
@@ -16,6 +18,9 @@ class Board
 public:
 	Board();
 	void PrintBoard() const;
+	Piece* GetPieceFromBoard(const int&, const int&) const;
+	bool CorrectUserInput(const std::string&, const PieceColor&) const;
+	void MovePiece(const std::string&);
 
 private:
 	MapOfSquares squares_on_board;

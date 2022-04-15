@@ -17,6 +17,8 @@ enum class PieceType
 	King,
 };
 
+class Board;
+
 class Piece
 {
 public:
@@ -25,9 +27,9 @@ public:
 	PieceType GetPieceType() const;
 	int GetColumn() const;
 	int GetRow() const;
-	void SetColumn(const int&);
-	void SetRow(const int&);
+	void SetColumnRow(const int&, const int&);
 	virtual void PrintPiece() const = 0;
+	virtual bool IsMoveValid(const Board&, const int&, const int&) = 0;
 
 private:
 	PieceColor piece_color;

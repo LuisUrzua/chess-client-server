@@ -28,12 +28,8 @@ int Piece::GetRow() const
 	return row;
 }
 
-void Piece::SetColumn(const int& c)
+void Piece::SetColumnRow(const int& c, const int& r)
 {
 	column = c;
-}
-
-void Piece::SetRow(const int& r)
-{
 	row = r;
 }

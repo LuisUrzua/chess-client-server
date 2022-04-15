@@ -10,6 +10,7 @@ public:
 	void InsertPiece(Piece*);
 	void PrintSquare() const;
 	Piece* GetPieceOnSquare() const;
+	void RemovePieceOnSquare();
 
 private:
 	int column;

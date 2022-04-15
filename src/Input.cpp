@@ -1,4 +1,6 @@
 #include "include/Input.h"
+#include "include/Piece.h"
+#include "include/Board.h"
 
 #include <iostream>
 #include <algorithm>
@@ -9,12 +11,18 @@
 #define ASCII_8 0x38
 #define ASCII_FORWARD_SLASH 0x2F
 
-Input::Input()
+std::map<std::string, PieceColor> string_to_color =
 {
+	{ "White", PieceColor::White },
+	{ "Black", PieceColor::Black },
+};
 
+Input::Input(std::string color)
+{
+	player_color = string_to_color.at(color);
 }
 
-std::string Input::ReadInput()
+std::string Input::ReadInput(const Board& chess_board)
 {
 	std::string user_input;
 
@@ -33,8 +41,13 @@ std::string Input::ReadInput()
 			std::cout << "Incorrect format, try again." << std::endl;
 			continue;
 		}
+		else if (!chess_board.CorrectUserInput(user_input, player_color))
+		{
+			continue;
+		}
 		else
 		{
+
 			break;
 		}
 	}

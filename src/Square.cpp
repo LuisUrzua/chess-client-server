@@ -60,3 +60,8 @@ Piece* Square::GetPieceOnSquare() const
 {
 	return piece_on_square;
 }
+
+void Square::RemovePieceOnSquare()
+{
+	piece_on_square = nullptr;
+}
