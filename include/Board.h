@@ -23,12 +23,14 @@ public:
 	void UpdateBoard(const std::string&);
 	void MovePiece(Piece*, const int&, const int&);
 	void CapturePiece(Piece*, const int&, const int&);
+	void Enpassant(Piece*, const int&, const int&);
 	// bool Stalemate();
 	// bool Checkmate();
 
 private:
 	MapOfSquares squares_on_board;
 	VectorOfPieces pieces_on_board;
+	Piece* last_used_piece;
 };
 
 #endif

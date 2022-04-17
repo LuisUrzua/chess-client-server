@@ -2,6 +2,7 @@
 #include "include/Pawn.h"
 
 #include <iostream>
+#include <algorithm>
 
 #define COLUMN_A 1
 #define COLUMN_B 2
@@ -137,6 +138,12 @@ bool Board::CorrectUserInput(const std::string& user_input, const PieceColor& co
 
 	for (const auto& piece : pieces_on_board)
 	{
+		piece->PrintPiece();
+		std::cout << ": " << piece->GetColumn() << piece->GetRow() << ": " << color_to_string.at(piece->GetPieceColor()) << std::endl;
+	}
+
+	for (const auto& piece : pieces_on_board)
+	{
 		if (piece->GetColumn() == current_column && piece->GetRow() == current_row)
 		{
 			if (piece->GetPieceColor() != color)
@@ -149,7 +156,7 @@ bool Board::CorrectUserInput(const std::string& user_input, const PieceColor& co
 
 			if (piece->IsMoveValid(*this, new_column, new_row))
 			{
-				std::cout << int_to_column.at(current_column) << int_to_row.at(current_row) << ": This move is legal." << std::endl;
+				std::cout << int_to_column.at(new_column) << int_to_row.at(new_row) << ": This move is legal." << std::endl;
 				valid_user_input = true;
 				break;
 			}
@@ -203,7 +210,7 @@ void Board::UpdateBoard(const std::string& user_input)
 	}
 	else if (player_piece->GetMoveType() == MoveType::Enpassant)
 	{
-
+		Enpassant(player_piece, new_column, new_row);
 	}
 	else if (player_piece->GetMoveType() == MoveType::Promote)
 	{
@@ -235,15 +242,40 @@ void Board::CapturePiece(Piece* player_piece, const int& new_column, const int& 
 	squares_on_board.at({ player_piece->GetColumn(), player_piece->GetRow() }).RemovePieceOnSquare();
 	squares_on_board.at({ new_column, new_row }).RemovePieceOnSquare();
 
-	for (auto piece : pieces_on_board)
+	const Piece* enemy_piece;
+
+	for (const auto& piece : pieces_on_board)
 	{
 		if (piece->GetColumn() == new_column && piece->GetRow() == new_row)
 		{
-			delete piece;
+			enemy_piece = piece;
 			break;
 		}
 	}
 
+	pieces_on_board.erase(std::remove(pieces_on_board.begin(), pieces_on_board.end(), enemy_piece), pieces_on_board.end());
 	player_piece->SetColumnRow(new_column, new_row);
 	squares_on_board.at({ new_column, new_row }).InsertPiece(player_piece);
+}
+
+void Board::Enpassant(Piece* player_pawn, const int& new_column, const int& new_row)
+{
+	const int enpassant_column = new_column;
+	const int enpassant_row = player_pawn->GetRow();
+	squares_on_board.at({ enpassant_column, enpassant_row }).RemovePieceOnSquare();
+	const Piece* enemy_piece;
+
+	for (const auto& piece : pieces_on_board)
+	{
+		if (piece->GetColumn() == enpassant_column && piece->GetRow() == enpassant_row)
+		{
+			enemy_piece = piece;
+			break;
+		}
+	}
+
+	pieces_on_board.erase(std::remove(pieces_on_board.begin(), pieces_on_board.end(), enemy_piece), pieces_on_board.end());
+	squares_on_board.at({ player_pawn->GetColumn(), player_pawn->GetRow() }).RemovePieceOnSquare();
+	player_pawn->SetColumnRow(new_column, new_row);
+	squares_on_board.at({ new_column, new_row }).InsertPiece(player_pawn);
 }

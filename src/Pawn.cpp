@@ -3,11 +3,6 @@
 
 #include <iostream>
 
-#define COLUMN_LIMIT_RIGHT 8
-#define COLUMN_LIMIT_LEFT 8
-#define ROW_LIMIT_UP 8
-#define ROW_LIMIT_DOWN 8
-
 const std::string white_pawn_unicode = "\u265F";
 const std::string black_pawn_unicode = "\u2659";
 
@@ -42,7 +37,9 @@ bool Pawn::IsMoveValid(const Board& board_current, const int& column_destination
 	if (OneSquareForward(board_current, column_destination, row_destination) ||
 		TwoSquaresForward(board_current, column_destination, row_destination) ||
 		CaptureLeft(board_current, column_destination, row_destination) ||
-		CaptureRight(board_current, column_destination, row_destination))
+		CaptureRight(board_current, column_destination, row_destination) ||
+		EnpassantLeft(board_current, column_destination, row_destination) ||
+		EnpassantRight(board_current, column_destination, row_destination))
 	{
 		pawn_move = true;
 	}
@@ -65,8 +62,7 @@ bool Pawn::OneSquareForward(const Board& board_current, const int& column_destin
 	if (piece_on_destination == nullptr && delta_column == column_no_movement && delta_row == row_forward)
 	{
 		move_one_square = true;
-		this->SetMoveType(MoveType::Move);
-		std::cout << "SetMoveType(): Move" << std::endl;
+		SetMoveType(MoveType::Move);
 	}
 
 	return move_one_square;
@@ -90,8 +86,7 @@ bool Pawn::TwoSquaresForward(const Board& board_current, const int& column_desti
 	if (piece_in_front_square == nullptr && piece_on_destination == nullptr && delta_column == column_no_movement && delta_row == row_two_squares_forward && current_row == starting_row)
 	{
 		move_two_squares = true;
-		std::cout << "SetMoveType(): Move" << std::endl;
-		this->SetMoveType(MoveType::Move);
+		SetMoveType(MoveType::Move);
 	}
 
 	return move_two_squares;
@@ -121,7 +116,7 @@ bool Pawn::CaptureLeft(const Board& board_current, const int& column_destination
 	if (delta_column == column_left && delta_row == row_forward)
 	{
 		capture_left = true;
-		this->SetMoveType(MoveType::Capture);
+		SetMoveType(MoveType::Capture);
 	}
 
 	return capture_left;
@@ -151,8 +146,80 @@ bool Pawn::CaptureRight(const Board& board_current, const int& column_destinatio
 	if (delta_column == column_right && delta_row == row_forward)
 	{
 		capture_right = true;
-		this->SetMoveType(MoveType::Capture);
+		SetMoveType(MoveType::Capture);
 	}
 
 	return capture_right;
+}
+
+bool Pawn::EnpassantLeft(const Board& board_current, const int& column_destination, const int& row_destination)
+{
+	bool enpassant_capture_left = false;
+	const int current_column = GetColumn();
+	const int current_row = GetRow();
+	const int delta_column = column_destination - current_column;
+	const int delta_row = row_destination - current_row;
+	const PieceColor color = GetPieceColor();
+	const int row_forward = (color == PieceColor::White) ? 1 : -1;
+	const int column_left = -1;
+	const Piece* piece_on_destination = board_current.GetPieceFromBoard(column_destination, row_destination);
+	const Piece* enpassant_piece = board_current.GetPieceFromBoard(column_destination, current_row);
+
+	if (piece_on_destination != nullptr || enpassant_piece == nullptr)
+	{
+		return enpassant_capture_left;
+	}
+
+	const VectorOfIntPairs list_of_moves = enpassant_piece->GetListOfMoves();
+
+	if (list_of_moves.size() != 1 || enpassant_piece->GetPieceType() != PieceType::Pawn)
+	{
+		return enpassant_capture_left;
+	}
+
+	if (list_of_moves.begin()->second == current_row && enpassant_piece->GetPieceColor() != color &&
+		delta_column == column_left && delta_row == row_forward &&
+		GetLastUsedPiece().first == enpassant_piece->GetColumn() && GetLastUsedPiece().second == enpassant_piece->GetRow())
+	{
+		enpassant_capture_left = true;
+		SetMoveType(MoveType::Enpassant);
+	}
+
+	return enpassant_capture_left;
+}
+
+bool Pawn::EnpassantRight(const Board& board_current, const int& column_destination, const int& row_destination)
+{
+	bool enpassant_capture_right = false;
+	const int current_column = GetColumn();
+	const int current_row = GetRow();
+	const int delta_column = column_destination - current_column;
+	const int delta_row = row_destination - current_row;
+	const PieceColor color = GetPieceColor();
+	const int row_forward = (color == PieceColor::White) ? 1 : -1;
+	const int column_right = 1;
+	const Piece* piece_on_destination = board_current.GetPieceFromBoard(column_destination, row_destination);
+	const Piece* enpassant_piece = board_current.GetPieceFromBoard(column_destination, current_row);
+
+	if (piece_on_destination != nullptr || enpassant_piece == nullptr)
+	{
+		return enpassant_capture_right;
+	}
+
+	const VectorOfIntPairs list_of_moves = enpassant_piece->GetListOfMoves();
+
+	if (list_of_moves.size() != 1 || enpassant_piece->GetPieceType() != PieceType::Pawn)
+	{
+		return enpassant_capture_right;
+	}
+
+	if (list_of_moves.begin()->second == current_row && enpassant_piece->GetPieceColor() != color &&
+		delta_column == column_right && delta_row == row_forward &&
+		GetLastUsedPiece().first == enpassant_piece->GetColumn() && GetLastUsedPiece().second == enpassant_piece->GetRow())
+	{
+		enpassant_capture_right = true;
+		SetMoveType(MoveType::Enpassant);
+	}
+
+	return enpassant_capture_right;
 }

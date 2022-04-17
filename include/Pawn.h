@@ -16,6 +16,8 @@ private:
 	bool TwoSquaresForward(const Board&, const int&, const int&);
 	bool CaptureLeft(const Board&, const int&, const int&);
 	bool CaptureRight(const Board&, const int&, const int&);
+	bool EnpassantLeft(const Board&, const int&, const int&);
+	bool EnpassantRight(const Board&, const int&, const int&);
 };
 
 #endif

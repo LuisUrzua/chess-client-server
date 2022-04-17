@@ -1,6 +1,8 @@
 #ifndef PIECE_H
 #define PIECE_H
 
+#include <vector>
+
 enum class PieceColor
 {
 	White,
@@ -30,6 +32,9 @@ enum class MoveType
 
 class Board;
 
+typedef std::pair<int, int> PairOfInts;
+typedef std::vector<PairOfInts> VectorOfIntPairs;
+
 class Piece
 {
 public:
@@ -42,6 +47,8 @@ public:
 	void SetColumnRow(const int&, const int&);
 	MoveType GetMoveType() const;
 	void SetMoveType(const MoveType&);
+	VectorOfIntPairs GetListOfMoves() const;
+	PairOfInts GetLastUsedPiece() const;
 	virtual void PrintPiece() const = 0;
 	virtual bool IsMoveValid(const Board&, const int&, const int&) = 0;
 
@@ -51,6 +58,8 @@ private:
 	int column;
 	int row;
 	MoveType move_type;
+	VectorOfIntPairs list_of_moves;
+	static PairOfInts last_used_piece;
 };
 
 #endif
