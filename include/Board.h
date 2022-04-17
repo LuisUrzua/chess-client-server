@@ -20,7 +20,9 @@ public:
 	void PrintBoard() const;
 	Piece* GetPieceFromBoard(const int&, const int&) const;
 	bool CorrectUserInput(const std::string&, const PieceColor&) const;
-	void MovePiece(const std::string&);
+	void UpdateBoard(const std::string&);
+	void MovePiece(Piece*, const int&, const int&);
+	void CapturePiece(Piece*, const int&, const int&);
 	// bool Stalemate();
 	// bool Checkmate();
 

@@ -21,12 +21,12 @@ int main()
         
         client_move = input_client.ReadInput(chess_board);
         socket.Send(client_move);
-        chess_board.MovePiece(client_move);
+        chess_board.UpdateBoard(client_move);
         chess_board.PrintBoard();
         
         server_move = socket.Read();
         std::cout << "Message from server: " << server_move << std::endl;
-        chess_board.MovePiece(server_move);
+        chess_board.UpdateBoard(server_move);
     }
     
     return 0;

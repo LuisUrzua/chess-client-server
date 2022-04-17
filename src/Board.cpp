@@ -35,8 +35,20 @@ Board::Board()
 
 	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_A, ROW_2));
 	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_B, ROW_2));
+	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_C, ROW_2));
 	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_D, ROW_2));
+	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_E, ROW_2));
+	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_F, ROW_2));
+	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_G, ROW_2));
+	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_H, ROW_2));
+
 	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_A, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_B, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_C, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_D, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_E, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_F, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_G, ROW_7));
 	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_H, ROW_7));
 
 	for (const auto& piece : pieces_on_board)
@@ -154,7 +166,7 @@ bool Board::CorrectUserInput(const std::string& user_input, const PieceColor& co
 }
 
 /* TODO: add a parameter that will identify which type of move (e.g. capture, move, enpassant, promotion, castle, promotion) */
-void Board::MovePiece(const std::string& user_input)
+void Board::UpdateBoard(const std::string& user_input)
 {
 	const int current_column_index = 0;
 	const int current_row_index = 1;
@@ -166,41 +178,72 @@ void Board::MovePiece(const std::string& user_input)
 	const int new_column = user_input.at(new_column_index) - ASCII_COLUMN_OFFSET;
 	const int new_row = user_input.at(new_row_index) - ASCII_ROW_OFFSET;
 
-	Piece* move_this_piece;
+	Piece* player_piece;
 
 	for (auto& piece : pieces_on_board)
 	{
 		if (piece->GetColumn() == current_column && piece->GetRow() == current_row)
 		{
 			/* this condition should be true once every time this function is called */
-			move_this_piece = piece;
+			player_piece = piece;
 			break;
 		}
 	}
 
-	move_this_piece->SetColumnRow(new_column, new_row);
-	squares_on_board.at({ current_column, current_row }).RemovePieceOnSquare();
-	squares_on_board.at({ new_column, new_row }).InsertPiece(move_this_piece);
+	/* call this function to ensure that the MoveType is updated */
+	player_piece->IsMoveValid(*this, new_column, new_row);
 
-	/*
-	if (move_type == MoveType::Move)
+	if (player_piece->GetMoveType() == MoveType::Move)
 	{
-		move_this_piece->SetColumnRow(new_column, new_row);
-		squares_on_board.at({ current_column, current_row }).RemovePieceOnSquare();
-		squares_on_board.at({ new_column, new_row }).InsertPiece(move_this_piece);
+		MovePiece(player_piece, new_column, new_row);
 	}
-	else if (move_type == MoveType::Capture)
+	else if (player_piece->GetMoveType() == MoveType::Capture)
 	{
-
+		CapturePiece(player_piece, new_column, new_row);
 	}
-	else if (move_type == MoveType::Enpassant)
+	else if (player_piece->GetMoveType() == MoveType::Enpassant)
 	{
 
 	}
-	else if (move_type == MoveType::Castle)
+	else if (player_piece->GetMoveType() == MoveType::Promote)
 	{
 
 	}
-	etc.
-	*/
+	else if (player_piece->GetMoveType() == MoveType::CastleKingside)
+	{
+
+	}
+	else if (player_piece->GetMoveType() == MoveType::CastleQueenside)
+	{
+
+	}
+	else
+	{
+		std::cout << "Error: Undefined move type" << std::endl;
+	}
+}
+
+void Board::MovePiece(Piece* player_piece, const int& new_column, const int& new_row)
+{
+	squares_on_board.at({ player_piece->GetColumn(), player_piece->GetRow() }).RemovePieceOnSquare();
+	player_piece->SetColumnRow(new_column, new_row);
+	squares_on_board.at({ new_column, new_row }).InsertPiece(player_piece);
+}
+
+void Board::CapturePiece(Piece* player_piece, const int& new_column, const int& new_row)
+{
+	squares_on_board.at({ player_piece->GetColumn(), player_piece->GetRow() }).RemovePieceOnSquare();
+	squares_on_board.at({ new_column, new_row }).RemovePieceOnSquare();
+
+	for (auto piece : pieces_on_board)
+	{
+		if (piece->GetColumn() == new_column && piece->GetRow() == new_row)
+		{
+			delete piece;
+			break;
+		}
+	}
+
+	player_piece->SetColumnRow(new_column, new_row);
+	squares_on_board.at({ new_column, new_row }).InsertPiece(player_piece);
 }
