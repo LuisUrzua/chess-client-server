@@ -149,6 +149,8 @@ bool Pawn::CaptureRight(const Board& board_current, const int& column_destinatio
 		SetMoveType(MoveType::Capture);
 	}
 
+	/* TODO: if (last_row) { SetMoveType(Promote); }*/
+
 	return capture_right;
 }
 

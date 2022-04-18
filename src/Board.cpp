@@ -230,7 +230,7 @@ void Board::UpdateBoard(const std::string& user_input)
 	}
 	else if (player_piece->GetMoveType() == MoveType::Promote)
 	{
-
+		
 	}
 	else if (player_piece->GetMoveType() == MoveType::CastleKingside)
 	{
@@ -238,7 +238,7 @@ void Board::UpdateBoard(const std::string& user_input)
 	}
 	else if (player_piece->GetMoveType() == MoveType::CastleQueenside)
 	{
-
+		CastleQueenside(player_piece, new_column, new_row);
 	}
 	else
 	{
@@ -299,4 +299,21 @@ void Board::Enpassant(Piece* player_pawn, const int& new_column, const int& new_
 	squares_on_board.at({ player_pawn->GetColumn(), player_pawn->GetRow() }).RemovePieceOnSquare();
 	player_pawn->SetColumnRow(new_column, new_row);
 	squares_on_board.at({ new_column, new_row }).InsertPiece(player_pawn);
+}
+
+void Board::CastleQueenside(Piece* player_king, const int& new_column, const int& new_row)
+{
+	const int rook_column = COLUMN_A;
+	const int rook_row = player_king->GetRow();
+	const int rook_column_destination = COLUMN_D;
+	const int rook_row_destination = player_king->GetRow();
+	Piece* player_rook = GetPieceFromBoard(rook_column, rook_row);
+
+	squares_on_board.at({ rook_column, rook_row }).RemovePieceOnSquare();
+	player_rook->SetColumnRow(rook_column_destination, rook_row_destination);
+	squares_on_board.at({ rook_column_destination, rook_row_destination }).InsertPiece(player_rook);
+
+	squares_on_board.at({ player_king->GetColumn(), player_king->GetRow() }).RemovePieceOnSquare();
+	player_king->SetColumnRow(new_column, new_row);
+	squares_on_board.at({ new_column, new_row }).InsertPiece(player_king);
 }
