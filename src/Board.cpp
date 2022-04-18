@@ -1,6 +1,7 @@
 #include "include/Board.h"
 #include "include/Pawn.h"
 #include "include/King.h"
+#include "include/Rook.h"
 
 #include <iostream>
 #include <algorithm>
@@ -35,6 +36,9 @@ Board::Board()
 		}
 	}
 
+	pieces_on_board.push_back(new Rook(PieceColor::White, COLUMN_A, ROW_1));
+	pieces_on_board.push_back(new Rook(PieceColor::White, COLUMN_H, ROW_1));
+
 	pieces_on_board.push_back(new King(PieceColor::White, COLUMN_E, ROW_1));
 
 	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_A, ROW_2));
@@ -45,6 +49,9 @@ Board::Board()
 	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_F, ROW_2));
 	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_G, ROW_2));
 	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_H, ROW_2));
+
+	pieces_on_board.push_back(new Rook(PieceColor::Black, COLUMN_A, ROW_8));
+	pieces_on_board.push_back(new Rook(PieceColor::Black, COLUMN_H, ROW_8));
 
 	pieces_on_board.push_back(new King(PieceColor::Black, COLUMN_E, ROW_8));
 
@@ -182,7 +189,6 @@ bool Board::CorrectUserInput(const std::string& user_input, const PieceColor& co
 	return valid_user_input;
 }
 
-/* TODO: add a parameter that will identify which type of move (e.g. capture, move, enpassant, promotion, castle, promotion) */
 void Board::UpdateBoard(const std::string& user_input)
 {
 	const int current_column_index = 0;
