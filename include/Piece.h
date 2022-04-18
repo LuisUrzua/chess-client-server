@@ -51,6 +51,15 @@ public:
 	PairOfInts GetLastUsedPiece() const;
 	virtual void PrintPiece() const = 0;
 	virtual bool IsMoveValid(const Board&, const int&, const int&) = 0;
+	//virtual void UpdateAttacksOnBoard(Board&, std::map<{int, int}, Square>) = 0;
+	/**
+	* for square in squares
+	*	if IsMoveValid(square)
+	*		chess_board.AddAttackerToBoard(square)
+	*/
+	/* alternative */
+	//list_of_attacks_on_squares;
+	//
 
 private:
 	PieceColor piece_color;

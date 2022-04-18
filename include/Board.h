@@ -17,6 +17,7 @@ class Board
 {
 public:
 	Board();
+	~Board();
 	void PrintBoard() const;
 	Piece* GetPieceFromBoard(const int&, const int&) const;
 	bool CorrectUserInput(const std::string&, const PieceColor&) const;
