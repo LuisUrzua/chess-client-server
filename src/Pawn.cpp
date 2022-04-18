@@ -223,3 +223,24 @@ bool Pawn::EnpassantRight(const Board& board_current, const int& column_destinat
 
 	return enpassant_capture_right;
 }
+
+void Pawn::UpdateListOfAttacks(const Board& chess_board)
+{
+	list_of_attacks.clear();
+	const int current_column = GetColumn();
+	const int current_row = GetRow();
+	const PieceColor color = GetPieceColor();
+	const int row_forward = (color == PieceColor::White) ? current_row + 1 : current_row - 1;
+	const int column_left = current_column - 1;
+	const int column_right = current_column + 1;
+
+	if (ColumnRowWithinBounds(column_left, row_forward))
+	{
+		list_of_attacks.push_back({ column_left, row_forward });
+	}
+
+	if (ColumnRowWithinBounds(column_right, row_forward))
+	{
+		list_of_attacks.push_back({ column_right, row_forward });
+	}
+}

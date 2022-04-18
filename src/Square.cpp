@@ -65,18 +65,3 @@ void Square::RemovePieceOnSquare()
 {
 	piece_on_square = nullptr;
 }
-
-VectorOfColumnRow Square::GetListOfAttackers() const
-{
-	return list_of_attackers;
-}
-
-void Square::AddAttacker(const int& c, const int& r)
-{
-	list_of_attackers.push_back({ c, r });
-}
-
-void Square::ResetListOfAttackers()
-{
-	list_of_attackers.clear();
-}

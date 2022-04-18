@@ -76,7 +76,7 @@ void Socket::Connect()
         std::cout << "Connecting to server..." << std::endl;
 
         /* Convert IPv4 addresse from text to binary form */
-        if ((inet_pton(AF_INET, DESKTOP_SERVER_ADDRESS, &address.sin_addr)) <= 0)
+        if ((inet_pton(AF_INET, LAPTOP_SERVER_ADDRESS, &address.sin_addr)) <= 0)
         {
             error = errno;
             PrintError(error);

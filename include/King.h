@@ -10,6 +10,7 @@ public:
 	~King() override;
 	void PrintPiece() const override;
 	bool IsMoveValid(const Board&, const int&, const int&) override;
+	void UpdateListOfAttacks(const Board&) override;
 
 private:
 	bool MoveOrCapture(const Board&, const int&, const int&);

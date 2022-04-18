@@ -10,6 +10,7 @@ public:
 	~Pawn() override;
 	void PrintPiece() const override;
 	bool IsMoveValid(const Board&, const int&, const int&) override;
+	void UpdateListOfAttacks(const Board&) override;
 
 private:
 	bool OneSquareForward(const Board&, const int&, const int&);

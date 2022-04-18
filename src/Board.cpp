@@ -238,6 +238,11 @@ void Board::UpdateBoard(const std::string& user_input)
 	{
 		std::cout << "Error: Undefined move type" << std::endl;
 	}
+
+	for (auto& piece : pieces_on_board)
+	{
+		piece->UpdateListOfAttacks(*this);
+	}
 }
 
 void Board::MovePiece(Piece* player_piece, const int& new_column, const int& new_row)

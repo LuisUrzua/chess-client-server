@@ -49,17 +49,13 @@ public:
 	void SetMoveType(const MoveType&);
 	VectorOfIntPairs GetListOfMoves() const;
 	PairOfInts GetLastUsedPiece() const;
+	VectorOfIntPairs GetListOfAttacks() const;
 	virtual void PrintPiece() const = 0;
 	virtual bool IsMoveValid(const Board&, const int&, const int&) = 0;
-	//virtual void UpdateAttacksOnBoard(Board&, std::map<{int, int}, Square>) = 0;
-	/**
-	* for square in squares
-	*	if IsMoveValid(square)
-	*		chess_board.AddAttackerToBoard(square)
-	*/
-	/* alternative */
-	//list_of_attacks_on_squares;
-	//
+	virtual void UpdateListOfAttacks(const Board&) = 0;
+	
+protected:
+	bool ColumnRowWithinBounds(const int&, const int&) const;
 
 private:
 	PieceColor piece_color;
@@ -69,6 +65,9 @@ private:
 	MoveType move_type;
 	VectorOfIntPairs list_of_moves;
 	static PairOfInts last_used_piece;
+
+protected:
+	VectorOfIntPairs list_of_attacks;
 };
 
 #endif

@@ -1,4 +1,12 @@
 #include "include/Piece.h"
+#include "include/Board.h"
+
+#define NUMBER_OF_COLUMNS 8
+#define NUMBER_OF_ROWS 8
+#define COLUMN_LIMIT_LEFT 1
+#define COLUMN_LIMIT_RIGHT 8
+#define ROW_LIMIT_BOTTOM 1
+#define ROW_LIMIT_TOP 8
 
 PairOfInts Piece::last_used_piece;
 
@@ -62,4 +70,21 @@ VectorOfIntPairs Piece::GetListOfMoves() const
 PairOfInts Piece::GetLastUsedPiece() const
 {
 	return Piece::last_used_piece;
+}
+
+VectorOfIntPairs Piece::GetListOfAttacks() const
+{
+	return list_of_attacks;
+}
+
+bool Piece::ColumnRowWithinBounds(const int& c, const int& r) const
+{
+	if (c >= COLUMN_LIMIT_LEFT && c <= COLUMN_LIMIT_RIGHT && r >= ROW_LIMIT_BOTTOM && r <= ROW_LIMIT_TOP)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
