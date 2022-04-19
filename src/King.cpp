@@ -320,15 +320,3 @@ void King::UpdateListOfAttacks(const Board& chess_board)
 		list_of_attacks.push_back({ left_column, top_row });
 	}
 }
-
-int King::AbsoluteValue(const int& delta_column_or_row) const
-{
-	if (delta_column_or_row < 0)
-	{
-		return delta_column_or_row * -1;
-	}
-	else
-	{
-		return delta_column_or_row;
-	}
-}

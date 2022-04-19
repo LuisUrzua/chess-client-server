@@ -56,6 +56,7 @@ public:
 	
 protected:
 	bool ColumnRowWithinBounds(const int&, const int&) const;
+	int AbsoluteValue(const int&) const;
 
 private:
 	PieceColor piece_color;

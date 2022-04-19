@@ -2,6 +2,7 @@
 #include "include/Pawn.h"
 #include "include/King.h"
 #include "include/Rook.h"
+#include "include/Bishop.h"
 
 #include <iostream>
 #include <algorithm>
@@ -36,6 +37,9 @@ Board::Board()
 		}
 	}
 
+	pieces_on_board.push_back(new Bishop(PieceColor::White, COLUMN_C, ROW_1));
+	pieces_on_board.push_back(new Bishop(PieceColor::White, COLUMN_F, ROW_1));
+
 	pieces_on_board.push_back(new Rook(PieceColor::White, COLUMN_A, ROW_1));
 	pieces_on_board.push_back(new Rook(PieceColor::White, COLUMN_H, ROW_1));
 
@@ -49,6 +53,9 @@ Board::Board()
 	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_F, ROW_2));
 	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_G, ROW_2));
 	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_H, ROW_2));
+
+	pieces_on_board.push_back(new Bishop(PieceColor::Black, COLUMN_C, ROW_8));
+	pieces_on_board.push_back(new Bishop(PieceColor::Black, COLUMN_F, ROW_8));
 
 	pieces_on_board.push_back(new Rook(PieceColor::Black, COLUMN_A, ROW_8));
 	pieces_on_board.push_back(new Rook(PieceColor::Black, COLUMN_H, ROW_8));

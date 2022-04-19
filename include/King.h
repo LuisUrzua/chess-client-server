@@ -16,7 +16,6 @@ private:
 	bool MoveOrCapture(const Board&, const int&, const int&);
 	bool CastleQueenside(const Board&, const int&, const int&);
 	bool CastleKingside(const Board&, const int&, const int&);
-	int AbsoluteValue(const int&) const;
 };
 
 #endif
