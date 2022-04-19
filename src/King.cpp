@@ -10,6 +10,8 @@
 #define COLUMN_C 3
 #define COLUMN_D 4
 #define COLUMN_E 5
+#define COLUMN_F 6
+#define COLUMN_G 7
 #define COLUMN_H 8
 #define ROW_1 1
 #define ROW_8 8
@@ -46,7 +48,8 @@ bool King::IsMoveValid(const Board& chess_board, const int& new_column, const in
 	bool king_move = false;
 
 	if (MoveOrCapture(chess_board, new_column, new_row) ||
-		CastleQueenside(chess_board, new_column, new_row))
+		CastleQueenside(chess_board, new_column, new_row) ||
+		CastleKingside(chess_board, new_column, new_row))
 	{
 		king_move = true;
 	}
@@ -197,7 +200,72 @@ bool King::CastleQueenside(const Board& chess_board, const int& new_column, cons
 
 bool King::CastleKingside(const Board& chess_board, const int& new_column, const int& new_row)
 {
-	return false;
+	bool castle_kingside = false;
+	const int current_column = GetColumn();
+	const int current_row = GetRow();
+	const PieceColor color = GetPieceColor();
+	const int first_row = (color == PieceColor::White) ? ROW_1 : ROW_8;
+	const int rook_column = COLUMN_H;
+	const int rook_row = first_row;
+	const Piece* rook_piece = chess_board.GetPieceFromBoard(rook_column, rook_row);
+
+	if (rook_piece == nullptr)
+	{
+		return castle_kingside;
+	}
+	else
+	{
+		if (rook_piece->GetPieceColor() != color || rook_piece->GetListOfMoves().size() > 0 || rook_piece->GetPieceType() != PieceType::Rook)
+		{
+			return castle_kingside;
+		}
+	}
+
+	if (chess_board.GetPieceFromBoard(COLUMN_F, first_row) != nullptr || chess_board.GetPieceFromBoard(COLUMN_G, first_row) != nullptr)
+	{
+		return castle_kingside;
+	}
+
+	for (int c = COLUMN_A; c <= COLUMN_H; c++)
+	{
+		for (int r = ROW_1; r <= ROW_8; r++)
+		{
+			const Piece* enemy_piece = chess_board.GetPieceFromBoard(c, r);
+
+			if (enemy_piece != nullptr)
+			{
+				if (enemy_piece->GetPieceColor() != color)
+				{
+					const VectorOfIntPairs list_of_enemy_attacks = enemy_piece->GetListOfAttacks();
+					for (const auto& attack : list_of_enemy_attacks)
+					{
+						if (attack.first == COLUMN_E && attack.second == first_row)
+						{
+							return castle_kingside;
+						}
+
+						if (attack.first == COLUMN_F && attack.second == first_row)
+						{
+							return castle_kingside;
+						}
+
+						if (attack.first == COLUMN_G && attack.second == first_row)
+						{
+							return castle_kingside;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if (current_column == COLUMN_E && current_row == first_row && GetListOfMoves().size() == 0 && new_column == COLUMN_G && new_row == first_row)
+	{
+		castle_kingside = true;
+		SetMoveType(MoveType::CastleKingside);
+	}
+
+	return castle_kingside;
 }
 
 void King::UpdateListOfAttacks(const Board& chess_board)

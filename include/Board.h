@@ -26,6 +26,7 @@ public:
 	void CapturePiece(Piece*, const int&, const int&);
 	void Enpassant(Piece*, const int&, const int&);
 	void CastleQueenside(Piece*, const int&, const int&);
+	void CastleKingside(Piece*, const int&, const int&);
 	// bool Stalemate();
 	// bool Checkmate();
 
