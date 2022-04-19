@@ -175,7 +175,7 @@ void Bishop::UpdateListOfAttacks(const Board& chess_board)
 		}
 	}
 
-	for (int west = current_column - 1, north = current_row + 1; ColumnRowWithinBounds(west, north); west--, north--)
+	for (int west = current_column - 1, north = current_row + 1; ColumnRowWithinBounds(west, north); west--, north++)
 	{
 		list_of_attacks.push_back({ west, north });
 
