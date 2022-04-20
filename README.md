@@ -1,4 +1,4 @@
-# Client_Server_Chess
+# Chess Client/Server
 Two player chess
 
 <!-- ABOUT THE PROJECT -->
