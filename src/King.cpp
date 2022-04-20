@@ -458,6 +458,8 @@ bool King::MoveKingOutOfCheck(const Board& chess_board)
 		king_out_of_check = true;
 	}
 
+	std::cout << "MoveKingOutOfCheck(): " << king_out_of_check << std::endl;
+
 	return king_out_of_check;
 }
 
@@ -465,6 +467,7 @@ bool King::CaptureAttackingEnemyPiece(const Board& chess_board, const Piece* ene
 {
 	if (enemy_piece == nullptr)
 	{
+		std::cout << "CaptureAttackingEnemyPiece(): false1" << std::endl;
 		return false;
 	}
 
@@ -484,14 +487,18 @@ bool King::CaptureAttackingEnemyPiece(const Board& chess_board, const Piece* ene
 					{
 						if (attack.first == enemy_piece->GetColumn() && attack.second == enemy_piece->GetRow())
 						{
-							return true;
+							if (piece_on_square->GetPieceType() != PieceType::King)
+							{
+								std::cout << "CaptureAttackingEnemyPiece(): true" << std::endl;
+								return true;
+							}
 						}
 					}
 				}
 			}
 		}
 	}
-
+	std::cout << "CaptureAttackingEnemyPiece(): false" << std::endl;
 	return false;
 }
 
@@ -499,6 +506,7 @@ bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy
 {
 	if (enemy_piece == nullptr)
 	{
+		std::cout << "BlockAttackingEnemyPiece(): false" << std::endl;
 		return false;
 	}
 
@@ -506,13 +514,13 @@ bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy
 	const int row = GetRow();
 	const int enemy_col = enemy_piece->GetColumn();
 	const int enemy_row = enemy_piece->GetRow();
-	const int delta_col = enemy_col - col;
-	const int delta_row = enemy_row - row;
+	const int delta_col = enemy_col - col; //E - F = - 1
+	const int delta_row = enemy_row - row; //8 - 7 = + 1
 
 	if (enemy_piece->GetPieceType() == PieceType::Bishop)
 	{
-		const int left_right = (delta_col > 0) ? -1 : 1;
-		const int down_up = (delta_row > 0) ? -1 : 1;
+		const int left_right = (delta_col > 0) ? 1 : -1;
+		const int down_up = (delta_row > 0) ? 1 : -1;
 
 		for (int c = col + left_right, r = row + down_up; c != enemy_col && r != enemy_row; c += left_right, r += down_up)
 		{
@@ -537,6 +545,7 @@ bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy
 									if (friendly_piece->IsMoveValid(chess_board, c, r))
 									{
 										friendly_piece->SetMoveType(save_move_type);
+										std::cout << "BlockAttackingEnemyPiece(): true" << std::endl;
 										return true;
 									}
 									else
@@ -580,6 +589,7 @@ bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy
 
 									if (friendly_piece->IsMoveValid(chess_board, c, r))
 									{
+										std::cout << "BlockAttackingEnemyPiece(): true" << std::endl;
 										friendly_piece->SetMoveType(save_move_type);
 										return true;
 									}
@@ -597,39 +607,44 @@ bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy
 	}
 	else if (enemy_piece->GetPieceType() == PieceType::Queen)
 	{
-		const int horizontal = (delta_col == 0) ? 0 : 1;
-		const int vertical = (delta_row == 0) ? 0 : 1;
-		int left_right = (delta_col > 0) ? -1 : 1;
-		int down_up = (delta_row > 0) ? -1 : 1;
-
-		for (int c = col + left_right * horizontal, r = row + down_up * vertical; c != enemy_col && r != enemy_row; c += left_right * horizontal, r += down_up * vertical)
+		if (delta_col == 0 || delta_row == 0)
 		{
-			for (int c_col = COLUMN_A; c_col <= COLUMN_H; c_col++)
+			/* rook move */
+			const int horizontal = (delta_col == 0) ? 0 : 1;
+			const int vertical = (delta_row == 0) ? 0 : 1;
+			int left_right = (delta_col > 0) ? -1 : 1;
+			int down_up = (delta_row > 0) ? -1 : 1;
+
+			for (int c = col + left_right * horizontal, r = row + down_up * vertical; c != enemy_col && r != enemy_row; c += left_right * horizontal, r += down_up * vertical)
 			{
-				for (int r_row = ROW_1; r_row <= ROW_8; r_row++)
+				for (int c_col = COLUMN_A; c_col <= COLUMN_H; c_col++)
 				{
-					Piece* friendly_piece = chess_board.GetPieceFromBoard(c_col, r_row);
-
-					if (friendly_piece != nullptr)
+					for (int r_row = ROW_1; r_row <= ROW_8; r_row++)
 					{
-						if (friendly_piece->GetPieceColor() == GetPieceColor())
+						Piece* friendly_piece = chess_board.GetPieceFromBoard(c_col, r_row);
+
+						if (friendly_piece != nullptr)
 						{
-							VectorOfIntPairs squares_to_protect = friendly_piece->GetListOfAttacks();
-
-							for (const auto& square : squares_to_protect)
+							if (friendly_piece->GetPieceColor() == GetPieceColor())
 							{
-								if (square.first == c && square.second == r)
-								{
-									MoveType save_move_type = friendly_piece->GetMoveType();
+								VectorOfIntPairs squares_to_protect = friendly_piece->GetListOfAttacks();
 
-									if (friendly_piece->IsMoveValid(chess_board, c, r))
+								for (const auto& square : squares_to_protect)
+								{
+									if (square.first == c && square.second == r)
 									{
-										friendly_piece->SetMoveType(save_move_type);
-										return true;
-									}
-									else
-									{
-										friendly_piece->SetMoveType(save_move_type);
+										MoveType save_move_type = friendly_piece->GetMoveType();
+
+										if (friendly_piece->IsMoveValid(chess_board, c, r))
+										{
+											std::cout << "BlockAttackingEnemyPiece(): true" << std::endl;
+											friendly_piece->SetMoveType(save_move_type);
+											return true;
+										}
+										else
+										{
+											friendly_piece->SetMoveType(save_move_type);
+										}
 									}
 								}
 							}
@@ -638,35 +653,42 @@ bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy
 				}
 			}
 		}
-
-		for (int c = col + left_right, r = row + down_up; c != enemy_col && r != enemy_row; c += left_right, r += down_up)
+		else
 		{
-			for (int c_col = COLUMN_A; c_col <= COLUMN_H; c_col++)
+			/* bishop move */
+			const int left_right = (delta_col > 0) ? 1 : -1;
+			const int down_up = (delta_row > 0) ? 1 : -1;
+
+			for (int c = col + left_right, r = row + down_up; c != enemy_col && r != enemy_row; c += left_right, r += down_up)
 			{
-				for (int r_row = ROW_1; r_row <= ROW_8; r_row++)
+				for (int c_col = COLUMN_A; c_col <= COLUMN_H; c_col++)
 				{
-					Piece* friendly_piece = chess_board.GetPieceFromBoard(c_col, r_row);
-
-					if (friendly_piece != nullptr)
+					for (int r_row = ROW_1; r_row <= ROW_8; r_row++)
 					{
-						if (friendly_piece->GetPieceColor() == GetPieceColor())
+						Piece* friendly_piece = chess_board.GetPieceFromBoard(c_col, r_row);
+
+						if (friendly_piece != nullptr)
 						{
-							VectorOfIntPairs squares_to_protect = friendly_piece->GetListOfAttacks();
-
-							for (const auto& square : squares_to_protect)
+							if (friendly_piece->GetPieceColor() == GetPieceColor())
 							{
-								if (square.first == c && square.second == r)
-								{
-									MoveType save_move_type = friendly_piece->GetMoveType();
+								VectorOfIntPairs squares_to_protect = friendly_piece->GetListOfAttacks();
 
-									if (friendly_piece->IsMoveValid(chess_board, c, r))
+								for (const auto& square : squares_to_protect)
+								{
+									if (square.first == c && square.second == r)
 									{
-										friendly_piece->SetMoveType(save_move_type);
-										return true;
-									}
-									else
-									{
-										friendly_piece->SetMoveType(save_move_type);
+										MoveType save_move_type = friendly_piece->GetMoveType();
+
+										if (friendly_piece->IsMoveValid(chess_board, c, r))
+										{
+											friendly_piece->SetMoveType(save_move_type);
+											std::cout << "BlockAttackingEnemyPiece(): true" << std::endl;
+											return true;
+										}
+										else
+										{
+											friendly_piece->SetMoveType(save_move_type);
+										}
 									}
 								}
 							}
@@ -678,8 +700,10 @@ bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy
 	}
 	else
 	{
+		std::cout << "else" << std::endl;
 		/* pawns and knights cannot be blocked */
 	}
 
+	std::cout << "BlockAttackingEnemyPiece(): false" << std::endl;
 	return false;
 }
