@@ -39,49 +39,49 @@ Board::Board()
 		}
 	}
 
-	//pieces_on_board.push_back(new Knight(PieceColor::White, COLUMN_B, ROW_1));
-	//pieces_on_board.push_back(new Knight(PieceColor::White, COLUMN_G, ROW_1));
+	pieces_on_board.push_back(new Knight(PieceColor::White, COLUMN_B, ROW_1));
+	pieces_on_board.push_back(new Knight(PieceColor::White, COLUMN_G, ROW_1));
 
-	//pieces_on_board.push_back(new Bishop(PieceColor::White, COLUMN_C, ROW_1));
-	//pieces_on_board.push_back(new Bishop(PieceColor::White, COLUMN_F, ROW_1));
+	pieces_on_board.push_back(new Bishop(PieceColor::White, COLUMN_C, ROW_1));
+	pieces_on_board.push_back(new Bishop(PieceColor::White, COLUMN_F, ROW_1));
 
-	//pieces_on_board.push_back(new Rook(PieceColor::White, COLUMN_A, ROW_1));
-	//pieces_on_board.push_back(new Rook(PieceColor::White, COLUMN_H, ROW_1));
+	pieces_on_board.push_back(new Rook(PieceColor::White, COLUMN_A, ROW_1));
+	pieces_on_board.push_back(new Rook(PieceColor::White, COLUMN_H, ROW_1));
 
 	pieces_on_board.push_back(new Queen(PieceColor::White, COLUMN_D, ROW_1));
 
 	pieces_on_board.push_back(new King(PieceColor::White, COLUMN_E, ROW_1));
 
-	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_A, ROW_2));
-	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_B, ROW_2));
-	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_C, ROW_2));
-	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_D, ROW_2));
-	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_E, ROW_2));
-	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_F, ROW_2));
-	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_G, ROW_2));
-	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_H, ROW_2));
+	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_A, ROW_2));
+	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_B, ROW_2));
+	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_C, ROW_2));
+	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_D, ROW_2));
+	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_E, ROW_2));
+	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_F, ROW_2));
+	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_G, ROW_2));
+	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_H, ROW_2));
 
-	//pieces_on_board.push_back(new Knight(PieceColor::Black, COLUMN_B, ROW_8));
-	//pieces_on_board.push_back(new Knight(PieceColor::Black, COLUMN_G, ROW_8));
+	pieces_on_board.push_back(new Knight(PieceColor::Black, COLUMN_B, ROW_8));
+	pieces_on_board.push_back(new Knight(PieceColor::Black, COLUMN_G, ROW_8));
 
-	//pieces_on_board.push_back(new Bishop(PieceColor::Black, COLUMN_C, ROW_8));
-	//pieces_on_board.push_back(new Bishop(PieceColor::Black, COLUMN_F, ROW_8));
+	pieces_on_board.push_back(new Bishop(PieceColor::Black, COLUMN_C, ROW_8));
+	pieces_on_board.push_back(new Bishop(PieceColor::Black, COLUMN_F, ROW_8));
 
-	//pieces_on_board.push_back(new Rook(PieceColor::Black, COLUMN_A, ROW_8));
-	//pieces_on_board.push_back(new Rook(PieceColor::Black, COLUMN_H, ROW_8));
+	pieces_on_board.push_back(new Rook(PieceColor::Black, COLUMN_A, ROW_8));
+	pieces_on_board.push_back(new Rook(PieceColor::Black, COLUMN_H, ROW_8));
 
 	pieces_on_board.push_back(new Queen(PieceColor::Black, COLUMN_D, ROW_8));
 
 	pieces_on_board.push_back(new King(PieceColor::Black, COLUMN_E, ROW_8));
 
-	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_A, ROW_7));
-	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_B, ROW_7));
-	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_C, ROW_7));
-	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_D, ROW_7));
-	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_E, ROW_7));
-	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_F, ROW_7));
-	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_G, ROW_7));
-	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_H, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_A, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_B, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_C, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_D, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_E, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_F, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_G, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_H, ROW_7));
 
 	for (const auto& piece : pieces_on_board)
 	{
@@ -268,6 +268,8 @@ void Board::UpdateBoard(const std::string& user_input)
 	{
 		piece->UpdateListOfAttacks(*this);
 	}
+
+	Checkmate((player_piece->GetPieceColor() == PieceColor::White) ? PieceColor::Black : PieceColor::White);
 }
 
 void Board::MovePiece(Piece* player_piece, const int& new_column, const int& new_row)
@@ -352,4 +354,27 @@ void Board::CastleKingside(Piece* player_king, const int& new_column, const int&
 	squares_on_board.at({ player_king->GetColumn(), player_king->GetRow() }).RemovePieceOnSquare();
 	player_king->SetColumnRow(new_column, new_row);
 	squares_on_board.at({ new_column, new_row }).InsertPiece(player_king);
+}
+
+bool Board::Checkmate(const PieceColor& enemy_color)
+{
+	Piece* enemy_king;
+
+	for (const auto& piece : pieces_on_board)
+	{
+		if (piece->GetPieceType() == PieceType::King && piece->GetPieceColor() == enemy_color)
+		{
+			enemy_king = piece;
+			break;
+		}
+	}
+
+	if (enemy_king->Checkmate(*this))
+	{
+		PrintBoard();
+		std::cout << "Checkmate! " << ((enemy_color == PieceColor::White) ? "Black" : "White") << " wins." << std::endl;
+		exit(EXIT_FAILURE);
+	}
+
+	return false;
 }

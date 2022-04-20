@@ -28,7 +28,7 @@ public:
 	void CastleQueenside(Piece*, const int&, const int&);
 	void CastleKingside(Piece*, const int&, const int&);
 	// bool Stalemate();
-	// bool Checkmate();
+	 bool Checkmate(const PieceColor&);
 
 private:
 	MapOfSquares squares_on_board;

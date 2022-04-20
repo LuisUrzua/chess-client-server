@@ -2,6 +2,7 @@
 #include "include/Board.h"
 
 #include <iostream>
+#include <algorithm>
 
 #define NUMBER_OF_COLUMNS 8
 #define NUMBER_OF_ROWS 8
@@ -319,4 +320,141 @@ void King::UpdateListOfAttacks(const Board& chess_board)
 	{
 		list_of_attacks.push_back({ left_column, top_row });
 	}
+}
+
+bool King::Checkmate(const Board& chess_board)
+{
+	bool king_in_check = false;
+	bool king_checkmate = false;
+	int number_of_checks = 0;
+
+	for (int c = COLUMN_A; c <= COLUMN_H; c++)
+	{
+		for (int r = ROW_1; r <= ROW_8; r++)
+		{
+			const Piece* piece_on_square = chess_board.GetPieceFromBoard(c, r);
+
+			if (piece_on_square != nullptr)
+			{
+				if (piece_on_square->GetPieceColor() != GetPieceColor())
+				{
+					const VectorOfIntPairs attack_squares = piece_on_square->GetListOfAttacks();
+
+					for (const auto& attack : attack_squares)
+					{
+						if (attack.first == GetColumn() && attack.second == GetRow())
+						{
+							king_in_check = true;
+							number_of_checks++;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if (!king_in_check)
+	{
+		return king_checkmate;
+	}
+
+	if (number_of_checks == 1)
+	{
+		if (!MoveKingOutOfCheck(chess_board))
+		{
+			king_checkmate = true;
+		}
+	}
+	else if (number_of_checks == 2)
+	{
+		if (!MoveKingOutOfCheck(chess_board))
+		{
+			king_checkmate = true;
+		}
+	}
+
+	return king_checkmate;
+}
+
+bool King::MoveKingOutOfCheck(const Board& chess_board)
+{
+	bool king_out_of_check = false;
+	const int c = GetColumn();
+	const int r = GetRow();
+	const PieceColor color = GetPieceColor();
+	VectorOfIntPairs enemy_attacks;
+	VectorOfIntPairs squares_around_king;
+	squares_around_king.push_back({ c, r + 1 });
+	squares_around_king.push_back({ c + 1, r + 1 });
+	squares_around_king.push_back({ c + 1, r });
+	squares_around_king.push_back({ c + 1, r - 1 });
+	squares_around_king.push_back({ c, r - 1 });
+	squares_around_king.push_back({ c - 1, r - 1 });
+	squares_around_king.push_back({ c - 1, r });
+	squares_around_king.push_back({ c - 1, r + 1 });
+
+	/* erase invalid squares */
+	for (VectorOfIntPairs::iterator it = squares_around_king.begin(); it != squares_around_king.end();)
+	{
+		if (!ColumnRowWithinBounds(it->first, it->second))
+		{
+			it = squares_around_king.erase(it);
+		}
+		else if (ColumnRowWithinBounds(it->first, it->second) && chess_board.GetPieceFromBoard(it->first, it->second) != nullptr)
+		{
+			/* erase squares that contain friendly pieces */
+			if (chess_board.GetPieceFromBoard(it->first, it->second)->GetPieceColor() == color)
+			{
+				it = squares_around_king.erase(it);
+			}
+			else
+			{
+				++it;
+			}
+		}
+		else
+		{
+			++it;
+		}
+	}
+
+	/* gather all enemy attacks */
+	for (int col = COLUMN_A; col <= COLUMN_H; col++)
+	{
+		for (int row = ROW_1; row <= ROW_8; row++)
+		{
+			const Piece* enemy_piece = chess_board.GetPieceFromBoard(col, row);
+
+			if (enemy_piece != nullptr)
+			{
+				if (enemy_piece->GetPieceColor() != color)
+				{
+					const VectorOfIntPairs enemy_piece_attacks = enemy_piece->GetListOfAttacks();
+
+					for (const auto& attack : enemy_piece_attacks)
+					{
+						enemy_attacks.push_back(attack);
+					}
+				}
+			}
+		}
+	}
+
+	/* remove valid squares which are being attacked by enemy pieces */
+	for (const auto& attack : enemy_attacks)
+	{
+		VectorOfIntPairs::iterator square_next_to_king = std::find(std::begin(squares_around_king), std::end(squares_around_king), attack);
+
+		if (square_next_to_king != std::end(squares_around_king))
+		{
+			squares_around_king.erase(square_next_to_king);
+		}
+	}
+
+	if (squares_around_king.size() > 0)
+	{
+		king_out_of_check = true;
+	}
+
+	return king_out_of_check;
 }

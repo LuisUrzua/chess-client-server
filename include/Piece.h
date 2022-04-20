@@ -53,7 +53,8 @@ public:
 	virtual void PrintPiece() const = 0;
 	virtual bool IsMoveValid(const Board&, const int&, const int&) = 0;
 	virtual void UpdateListOfAttacks(const Board&) = 0;
-	
+	virtual bool Checkmate(const Board&) { /* temporary */ return false; }
+
 protected:
 	bool ColumnRowWithinBounds(const int&, const int&) const;
 	int AbsoluteValue(const int&) const;
