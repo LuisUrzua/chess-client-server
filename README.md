@@ -37,8 +37,8 @@ You will need two physical computers or two virtual machines. Both machines need
 
 Client                     |  Server
 :-------------------------:|:-------------------------:
-<img src="./images/e2-e4.png" alt="drawing" width="600" />  |  <img src="./images/server-f7-f5.png" alt="drawing" width="600" />
-<img src="./images/d2-d4.png" alt="drawing" width="600" />  |  <img src="./images/server-g7-g5.png" alt="drawing" width="600" />
-<img src="./images/checkmate.png" alt="drawing" width="600" />
+<img src="./images/e2-e4.png" alt="drawing" width="450" />  |  <img src="./images/server-f7-f5.png" alt="drawing" width="450" />
+<img src="./images/d2-d4.png" alt="drawing" width="450" />  |  <img src="./images/server-g7-g5.png" alt="drawing" width="450" />
+<img src="./images/checkmate.png" alt="drawing" width="300" />
 
 
