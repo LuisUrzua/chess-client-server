@@ -362,15 +362,7 @@ bool King::Checkmate(const Board& chess_board)
 
 	if (number_of_checks == 1)
 	{
-		if (!MoveKingOutOfCheck(chess_board))
-		{
-			king_checkmate = true;
-		}
-		else if (!CaptureAttackingEnemyPiece(chess_board, enemy_piece))
-		{
-			king_checkmate = true;
-		}
-		else if (!BlockAttackingEnemyPiece(chess_board, enemy_piece))
+		if (!MoveKingOutOfCheck(chess_board) && !CaptureAttackingEnemyPiece(chess_board, enemy_piece) && !BlockAttackingEnemyPiece(chess_board, enemy_piece))
 		{
 			king_checkmate = true;
 		}

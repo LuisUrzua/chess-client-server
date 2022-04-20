@@ -45,14 +45,14 @@ Board::Board()
 	//pieces_on_board.push_back(new Bishop(PieceColor::White, COLUMN_C, ROW_1));
 	//pieces_on_board.push_back(new Bishop(PieceColor::White, COLUMN_F, ROW_1));
 
-	//pieces_on_board.push_back(new Rook(PieceColor::White, COLUMN_A, ROW_1));
-	//pieces_on_board.push_back(new Rook(PieceColor::White, COLUMN_H, ROW_1));
+	pieces_on_board.push_back(new Rook(PieceColor::White, COLUMN_A, ROW_1));
+	pieces_on_board.push_back(new Rook(PieceColor::White, COLUMN_H, ROW_1));
 
 	//pieces_on_board.push_back(new Queen(PieceColor::White, COLUMN_D, ROW_1));
 
 	pieces_on_board.push_back(new King(PieceColor::White, COLUMN_E, ROW_1));
 
-	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_A, ROW_7));
+	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_A, ROW_2));
 	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_B, ROW_2));
 	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_C, ROW_2));
 	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_D, ROW_2));
@@ -81,7 +81,7 @@ Board::Board()
 	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_E, ROW_7));
 	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_F, ROW_7));
 	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_G, ROW_7));
-	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_H, ROW_3));
+	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_H, ROW_7));
 
 	for (const auto& piece : pieces_on_board)
 	{
