@@ -370,6 +370,10 @@ bool King::Checkmate(const Board& chess_board)
 		{
 			king_checkmate = true;
 		}
+		else if (!BlockAttackingEnemyPiece(chess_board, enemy_piece))
+		{
+			king_checkmate = true;
+		}
 	}
 	else if (number_of_checks == 2)
 	{
@@ -501,5 +505,189 @@ bool King::CaptureAttackingEnemyPiece(const Board& chess_board, const Piece* ene
 
 bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy_piece)
 {
+	if (enemy_piece == nullptr)
+	{
+		return false;
+	}
+
+	const int col = GetColumn();
+	const int row = GetRow();
+	const int enemy_col = enemy_piece->GetColumn();
+	const int enemy_row = enemy_piece->GetRow();
+	const int delta_col = enemy_col - col;
+	const int delta_row = enemy_row - row;
+
+	if (enemy_piece->GetPieceType() == PieceType::Bishop)
+	{
+		const int left_right = (delta_col > 0) ? -1 : 1;
+		const int down_up = (delta_row > 0) ? -1 : 1;
+
+		for (int c = col + left_right, r = row + down_up; c != enemy_col && r != enemy_row; c += left_right, r += down_up)
+		{
+			for (int c_col = COLUMN_A; c_col <= COLUMN_H; c_col++)
+			{
+				for (int r_row = ROW_1; r_row <= ROW_8; r_row++)
+				{
+					Piece* friendly_piece = chess_board.GetPieceFromBoard(c_col, r_row);
+
+					if (friendly_piece != nullptr)
+					{
+						if (friendly_piece->GetPieceColor() == GetPieceColor())
+						{
+							VectorOfIntPairs squares_to_protect = friendly_piece->GetListOfAttacks();
+
+							for (const auto& square : squares_to_protect)
+							{
+								if (square.first == c && square.second == r)
+								{
+									MoveType save_move_type = friendly_piece->GetMoveType();
+
+									if (friendly_piece->IsMoveValid(chess_board, c, r))
+									{
+										friendly_piece->SetMoveType(save_move_type);
+										return true;
+									}
+									else
+									{
+										friendly_piece->SetMoveType(save_move_type);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	else if (enemy_piece->GetPieceType() == PieceType::Rook)
+	{
+		const int horizontal = (delta_col == 0) ? 0 : 1;
+		const int vertical = (delta_row == 0) ? 0 : 1;
+		int left_right = (delta_col > 0) ? -1 : 1;
+		int down_up = (delta_row > 0) ? -1 : 1;
+		
+		for (int c = col + left_right * horizontal, r = row + down_up * vertical; c != enemy_col && r != enemy_row; c += left_right * horizontal, r += down_up * vertical)
+		{
+			for (int c_col = COLUMN_A; c_col <= COLUMN_H; c_col++)
+			{
+				for (int r_row = ROW_1; r_row <= ROW_8; r_row++)
+				{
+					Piece* friendly_piece = chess_board.GetPieceFromBoard(c_col, r_row);
+
+					if (friendly_piece != nullptr)
+					{
+						if (friendly_piece->GetPieceColor() == GetPieceColor())
+						{
+							VectorOfIntPairs squares_to_protect = friendly_piece->GetListOfAttacks();
+
+							for (const auto& square : squares_to_protect)
+							{
+								if (square.first == c && square.second == r)
+								{
+									MoveType save_move_type = friendly_piece->GetMoveType();
+
+									if (friendly_piece->IsMoveValid(chess_board, c, r))
+									{
+										friendly_piece->SetMoveType(save_move_type);
+										return true;
+									}
+									else
+									{
+										friendly_piece->SetMoveType(save_move_type);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	else if (enemy_piece->GetPieceType() == PieceType::Queen)
+	{
+		const int horizontal = (delta_col == 0) ? 0 : 1;
+		const int vertical = (delta_row == 0) ? 0 : 1;
+		int left_right = (delta_col > 0) ? -1 : 1;
+		int down_up = (delta_row > 0) ? -1 : 1;
+
+		for (int c = col + left_right * horizontal, r = row + down_up * vertical; c != enemy_col && r != enemy_row; c += left_right * horizontal, r += down_up * vertical)
+		{
+			for (int c_col = COLUMN_A; c_col <= COLUMN_H; c_col++)
+			{
+				for (int r_row = ROW_1; r_row <= ROW_8; r_row++)
+				{
+					Piece* friendly_piece = chess_board.GetPieceFromBoard(c_col, r_row);
+
+					if (friendly_piece != nullptr)
+					{
+						if (friendly_piece->GetPieceColor() == GetPieceColor())
+						{
+							VectorOfIntPairs squares_to_protect = friendly_piece->GetListOfAttacks();
+
+							for (const auto& square : squares_to_protect)
+							{
+								if (square.first == c && square.second == r)
+								{
+									MoveType save_move_type = friendly_piece->GetMoveType();
+
+									if (friendly_piece->IsMoveValid(chess_board, c, r))
+									{
+										friendly_piece->SetMoveType(save_move_type);
+										return true;
+									}
+									else
+									{
+										friendly_piece->SetMoveType(save_move_type);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		for (int c = col + left_right, r = row + down_up; c != enemy_col && r != enemy_row; c += left_right, r += down_up)
+		{
+			for (int c_col = COLUMN_A; c_col <= COLUMN_H; c_col++)
+			{
+				for (int r_row = ROW_1; r_row <= ROW_8; r_row++)
+				{
+					Piece* friendly_piece = chess_board.GetPieceFromBoard(c_col, r_row);
+
+					if (friendly_piece != nullptr)
+					{
+						if (friendly_piece->GetPieceColor() == GetPieceColor())
+						{
+							VectorOfIntPairs squares_to_protect = friendly_piece->GetListOfAttacks();
+
+							for (const auto& square : squares_to_protect)
+							{
+								if (square.first == c && square.second == r)
+								{
+									MoveType save_move_type = friendly_piece->GetMoveType();
+
+									if (friendly_piece->IsMoveValid(chess_board, c, r))
+									{
+										friendly_piece->SetMoveType(save_move_type);
+										return true;
+									}
+									else
+									{
+										friendly_piece->SetMoveType(save_move_type);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		/* pawns and knights cannot be blocked */
+	}
+
 	return false;
 }
