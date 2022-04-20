@@ -3,7 +3,8 @@ Chess game between two players on two different computers.
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-It features all of the basic rules of chess which include: pawn-promotion, castling, enpassant capture, stalemate, and checkmate. The computers communicate using a TCP protocol. The chessboard is displayed using the console. It should be noted that this program was designed for Ubuntu machines and it uses Unicode symbols to display the different chess pieces. 
+It features all of the basic rules of chess which include: pawn-promotion, castling, enpassant capture, stalemate, and checkmate. The computers communicate using a TCP protocol. The chessboard is displayed using the console. It should be noted that this program was designed for Ubuntu machines and it uses Unicode symbols to display the different chess pieces.
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 <!-- GETTING STARTED -->
 ## Getting Started
