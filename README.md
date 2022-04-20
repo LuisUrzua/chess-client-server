@@ -4,7 +4,6 @@ Chess game between two players on two different computers.
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Alt text](images/starting-position.png?raw=true "Client")![Alt text](images/server-starting-position.png?raw=true "Client")
 <img src="images/starting-position.png" width="300">
 <img src="images/server-starting-position.png" width="300">
 
