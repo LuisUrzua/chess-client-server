@@ -58,11 +58,20 @@ bool Pawn::OneSquareForward(const Board& board_current, const int& column_destin
 	const int row_forward = (color == PieceColor::White) ? 1 : -1;
 	const int column_no_movement = 0;
 	const Piece* piece_on_destination = board_current.GetPieceFromBoard(column_destination, row_destination);
+	const int last_row = (color == PieceColor::White) ? 8 : 1;
 
 	if (piece_on_destination == nullptr && delta_column == column_no_movement && delta_row == row_forward)
 	{
 		move_one_square = true;
-		SetMoveType(MoveType::Move);
+
+		if (row_destination == last_row)
+		{
+			SetMoveType(MoveType::Promote);
+		}
+		else
+		{
+			SetMoveType(MoveType::Move);
+		}
 	}
 
 	return move_one_square;
@@ -103,6 +112,7 @@ bool Pawn::CaptureLeft(const Board& board_current, const int& column_destination
 	const int row_forward = (color == PieceColor::White) ? 1 : -1;
 	const int column_left = -1;
 	const Piece* piece_on_destination = board_current.GetPieceFromBoard(column_destination, row_destination);
+	const int last_row = (color == PieceColor::White) ? 8 : 1;
 
 	if (piece_on_destination == nullptr)
 	{
@@ -116,7 +126,15 @@ bool Pawn::CaptureLeft(const Board& board_current, const int& column_destination
 	if (delta_column == column_left && delta_row == row_forward)
 	{
 		capture_left = true;
-		SetMoveType(MoveType::Capture);
+		
+		if (row_destination == last_row)
+		{
+			SetMoveType(MoveType::Promote);
+		}
+		else
+		{
+			SetMoveType(MoveType::Move);
+		}
 	}
 
 	return capture_left;
@@ -133,6 +151,7 @@ bool Pawn::CaptureRight(const Board& board_current, const int& column_destinatio
 	const int row_forward = (color == PieceColor::White) ? 1 : -1;
 	const int column_right = 1;
 	const Piece* piece_on_destination = board_current.GetPieceFromBoard(column_destination, row_destination);
+	const int last_row = (color == PieceColor::White) ? 8 : 1;
 
 	if (piece_on_destination == nullptr)
 	{
@@ -146,7 +165,15 @@ bool Pawn::CaptureRight(const Board& board_current, const int& column_destinatio
 	if (delta_column == column_right && delta_row == row_forward)
 	{
 		capture_right = true;
-		SetMoveType(MoveType::Capture);
+		
+		if (row_destination == last_row)
+		{
+			SetMoveType(MoveType::Promote);
+		}
+		else
+		{
+			SetMoveType(MoveType::Move);
+		}
 	}
 
 	/* TODO: if (last_row) { SetMoveType(Promote); }*/

@@ -52,14 +52,14 @@ Board::Board()
 
 	pieces_on_board.push_back(new King(PieceColor::White, COLUMN_E, ROW_1));
 
-	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_A, ROW_2));
+	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_A, ROW_7));
 	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_B, ROW_2));
 	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_C, ROW_2));
 	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_D, ROW_2));
 	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_E, ROW_2));
 	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_F, ROW_2));
 	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_G, ROW_2));
-	pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_H, ROW_2));
+	//pieces_on_board.push_back(new Pawn(PieceColor::White, COLUMN_H, ROW_2));
 
 	//pieces_on_board.push_back(new Knight(PieceColor::Black, COLUMN_B, ROW_8));
 	//pieces_on_board.push_back(new Knight(PieceColor::Black, COLUMN_G, ROW_8));
@@ -67,7 +67,7 @@ Board::Board()
 	//pieces_on_board.push_back(new Bishop(PieceColor::Black, COLUMN_C, ROW_8));
 	//pieces_on_board.push_back(new Bishop(PieceColor::Black, COLUMN_F, ROW_8));
 
-	pieces_on_board.push_back(new Rook(PieceColor::Black, COLUMN_A, ROW_8));
+	//pieces_on_board.push_back(new Rook(PieceColor::Black, COLUMN_A, ROW_8));
 	//pieces_on_board.push_back(new Rook(PieceColor::Black, COLUMN_H, ROW_8));
 
 	//pieces_on_board.push_back(new Queen(PieceColor::Black, COLUMN_D, ROW_8));
@@ -81,7 +81,7 @@ Board::Board()
 	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_E, ROW_7));
 	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_F, ROW_7));
 	//pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_G, ROW_7));
-	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_H, ROW_7));
+	pieces_on_board.push_back(new Pawn(PieceColor::Black, COLUMN_H, ROW_3));
 
 	for (const auto& piece : pieces_on_board)
 	{
@@ -208,7 +208,7 @@ bool Board::CorrectUserInput(const std::string& user_input, const PieceColor& co
 	return valid_user_input;
 }
 
-void Board::UpdateBoard(const std::string& user_input)
+void Board::UpdateBoard(std::string& user_input)
 {
 	const int current_column_index = 0;
 	const int current_row_index = 1;
@@ -249,7 +249,7 @@ void Board::UpdateBoard(const std::string& user_input)
 	}
 	else if (player_piece->GetMoveType() == MoveType::Promote)
 	{
-		
+		Promote(player_piece, new_column, new_row, user_input);
 	}
 	else if (player_piece->GetMoveType() == MoveType::CastleQueenside)
 	{
@@ -321,6 +321,89 @@ void Board::Enpassant(Piece* player_pawn, const int& new_column, const int& new_
 	squares_on_board.at({ player_pawn->GetColumn(), player_pawn->GetRow() }).RemovePieceOnSquare();
 	player_pawn->SetColumnRow(new_column, new_row);
 	squares_on_board.at({ new_column, new_row }).InsertPiece(player_pawn);
+}
+
+void Board::Promote(Piece* player_pawn, const int& new_column, const int& new_row, std::string& user_input)
+{
+	const Piece* enemy_piece = GetPieceFromBoard(new_column, new_row);
+	const MoveType move_or_capture = (enemy_piece != nullptr) ? MoveType::Capture : MoveType::Move;
+
+	if (move_or_capture == MoveType::Capture)
+	{
+		squares_on_board.at({ new_column, new_row }).RemovePieceOnSquare();
+		pieces_on_board.erase(std::remove(pieces_on_board.begin(), pieces_on_board.end(), enemy_piece), pieces_on_board.end());
+	}
+
+	if (user_input.size() == 5)
+	{
+		std::string pawn_promotion;
+
+		while (true)
+		{
+			std::cout << "Pawn promotion. Choose any of the following: (K)night, (B)ishop, (R)ook, (Q)ueen -> ";
+			std::getline(std::cin, pawn_promotion);
+			std::transform(pawn_promotion.begin(), pawn_promotion.end(), pawn_promotion.begin(), ::toupper);
+
+			if (pawn_promotion.size() != 1)
+			{
+				std::cout << "Input size must be 1 letter. Try again." << std::endl;
+				continue;
+			}
+			else if (pawn_promotion.at(0) != 'K' && pawn_promotion.at(0) != 'B' && pawn_promotion.at(0) != 'R' && pawn_promotion.at(0) != 'Q')
+			{
+				std::cout << "Letter must be 'K', 'B', 'R', or 'Q'. Try again." << std::endl;
+				continue;
+			}
+			else
+			{
+				user_input.append(pawn_promotion);
+
+				if (pawn_promotion.at(0) == 'K')
+				{
+					pieces_on_board.push_back(new Knight(player_pawn->GetPieceColor(), new_column, new_row));
+				}
+				else if (pawn_promotion.at(0) == 'B')
+				{
+					pieces_on_board.push_back(new Bishop(player_pawn->GetPieceColor(), new_column, new_row));
+				}
+				else if (pawn_promotion.at(0) == 'R')
+				{
+					pieces_on_board.push_back(new Rook(player_pawn->GetPieceColor(), new_column, new_row));
+				}
+				else if (pawn_promotion.at(0) == 'Q')
+				{
+					pieces_on_board.push_back(new Queen(player_pawn->GetPieceColor(), new_column, new_row));
+				}
+
+				break;
+			}
+		}
+	}
+	else if (user_input.size() == 6)
+	{
+		std::cout << "Pawn promotion." << std::endl;
+
+		if (user_input.at(5) == 'K')
+		{
+			pieces_on_board.push_back(new Knight(player_pawn->GetPieceColor(), new_column, new_row));
+		}
+		else if (user_input.at(5) == 'B')
+		{
+			pieces_on_board.push_back(new Bishop(player_pawn->GetPieceColor(), new_column, new_row));
+		}
+		else if (user_input.at(5) == 'R')
+		{
+			pieces_on_board.push_back(new Rook(player_pawn->GetPieceColor(), new_column, new_row));
+		}
+		else if (user_input.at(5) == 'Q')
+		{
+			pieces_on_board.push_back(new Queen(player_pawn->GetPieceColor(), new_column, new_row));
+		}
+	}
+
+	squares_on_board.at({ new_column, new_row }).InsertPiece(pieces_on_board.back());
+	squares_on_board.at({ player_pawn->GetColumn(), player_pawn->GetRow() }).RemovePieceOnSquare();
+	pieces_on_board.erase(std::remove(pieces_on_board.begin(), pieces_on_board.end(), player_pawn), pieces_on_board.end());
 }
 
 void Board::CastleQueenside(Piece* player_king, const int& new_column, const int& new_row)

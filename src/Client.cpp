@@ -20,8 +20,9 @@ int main()
         chess_board.PrintBoard();
         
         client_move = input_client.ReadInput(chess_board);
-        socket.Send(client_move);
         chess_board.UpdateBoard(client_move);
+        socket.Send(client_move);
+
         chess_board.PrintBoard();
         
         server_move = socket.Read();

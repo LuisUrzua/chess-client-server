@@ -21,10 +21,11 @@ public:
 	void PrintBoard() const;
 	Piece* GetPieceFromBoard(const int&, const int&) const;
 	bool CorrectUserInput(const std::string&, const PieceColor&) const;
-	void UpdateBoard(const std::string&);
+	void UpdateBoard(std::string&);
 	void MovePiece(Piece*, const int&, const int&);
 	void CapturePiece(Piece*, const int&, const int&);
 	void Enpassant(Piece*, const int&, const int&);
+	void Promote(Piece*, const int&, const int&, std::string&);
 	void CastleQueenside(Piece*, const int&, const int&);
 	void CastleKingside(Piece*, const int&, const int&);
 	void Checkmate(const PieceColor&);
