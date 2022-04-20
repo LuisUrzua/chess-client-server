@@ -6,7 +6,8 @@ Chess game between two players on two different computers.
 
 Client                     |  Server
 :-------------------------:|:-------------------------:
-![](./images/starting-position.png =x300)  |  ![](./images/server-starting-position.png =300x)
+<img src="./images/starting-position.png" alt="drawing" width="200" />  |  <img src="./images/server-starting-position.png" alt="drawing" width="200" />
+<!-- ![](./images/starting-position.png =x300)  |  ![](./images/server-starting-position.png =300x) -->
 
 <!-- <img src="images/starting-position.png" width="300"><img src="images/server-starting-position.png" width="300"> -->
 
