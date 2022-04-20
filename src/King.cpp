@@ -458,8 +458,6 @@ bool King::MoveKingOutOfCheck(const Board& chess_board)
 		king_out_of_check = true;
 	}
 
-	std::cout << "MoveKingOutOfCheck(): " << king_out_of_check << std::endl;
-
 	return king_out_of_check;
 }
 
@@ -467,7 +465,6 @@ bool King::CaptureAttackingEnemyPiece(const Board& chess_board, const Piece* ene
 {
 	if (enemy_piece == nullptr)
 	{
-		std::cout << "CaptureAttackingEnemyPiece(): false1" << std::endl;
 		return false;
 	}
 
@@ -489,7 +486,6 @@ bool King::CaptureAttackingEnemyPiece(const Board& chess_board, const Piece* ene
 						{
 							if (piece_on_square->GetPieceType() != PieceType::King)
 							{
-								std::cout << "CaptureAttackingEnemyPiece(): true" << std::endl;
 								return true;
 							}
 						}
@@ -498,7 +494,7 @@ bool King::CaptureAttackingEnemyPiece(const Board& chess_board, const Piece* ene
 			}
 		}
 	}
-	std::cout << "CaptureAttackingEnemyPiece(): false" << std::endl;
+
 	return false;
 }
 
@@ -506,7 +502,6 @@ bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy
 {
 	if (enemy_piece == nullptr)
 	{
-		std::cout << "BlockAttackingEnemyPiece(): false" << std::endl;
 		return false;
 	}
 
@@ -545,7 +540,6 @@ bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy
 									if (friendly_piece->IsMoveValid(chess_board, c, r))
 									{
 										friendly_piece->SetMoveType(save_move_type);
-										std::cout << "BlockAttackingEnemyPiece(): true" << std::endl;
 										return true;
 									}
 									else
@@ -589,7 +583,6 @@ bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy
 
 									if (friendly_piece->IsMoveValid(chess_board, c, r))
 									{
-										std::cout << "BlockAttackingEnemyPiece(): true" << std::endl;
 										friendly_piece->SetMoveType(save_move_type);
 										return true;
 									}
@@ -637,7 +630,6 @@ bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy
 
 										if (friendly_piece->IsMoveValid(chess_board, c, r))
 										{
-											std::cout << "BlockAttackingEnemyPiece(): true" << std::endl;
 											friendly_piece->SetMoveType(save_move_type);
 											return true;
 										}
@@ -682,7 +674,6 @@ bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy
 										if (friendly_piece->IsMoveValid(chess_board, c, r))
 										{
 											friendly_piece->SetMoveType(save_move_type);
-											std::cout << "BlockAttackingEnemyPiece(): true" << std::endl;
 											return true;
 										}
 										else
@@ -700,10 +691,8 @@ bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy
 	}
 	else
 	{
-		std::cout << "else" << std::endl;
 		/* pawns and knights cannot be blocked */
 	}
 
-	std::cout << "BlockAttackingEnemyPiece(): false" << std::endl;
 	return false;
 }
