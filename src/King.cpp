@@ -327,12 +327,13 @@ bool King::Checkmate(const Board& chess_board)
 	bool king_in_check = false;
 	bool king_checkmate = false;
 	int number_of_checks = 0;
+	Piece* enemy_piece;
 
 	for (int c = COLUMN_A; c <= COLUMN_H; c++)
 	{
 		for (int r = ROW_1; r <= ROW_8; r++)
 		{
-			const Piece* piece_on_square = chess_board.GetPieceFromBoard(c, r);
+			Piece* piece_on_square = chess_board.GetPieceFromBoard(c, r);
 
 			if (piece_on_square != nullptr)
 			{
@@ -344,6 +345,7 @@ bool King::Checkmate(const Board& chess_board)
 					{
 						if (attack.first == GetColumn() && attack.second == GetRow())
 						{
+							enemy_piece = piece_on_square;
 							king_in_check = true;
 							number_of_checks++;
 						}
@@ -361,6 +363,10 @@ bool King::Checkmate(const Board& chess_board)
 	if (number_of_checks == 1)
 	{
 		if (!MoveKingOutOfCheck(chess_board))
+		{
+			king_checkmate = true;
+		}
+		else if (!CaptureAttackingEnemyPiece(chess_board, enemy_piece))
 		{
 			king_checkmate = true;
 		}
@@ -457,4 +463,43 @@ bool King::MoveKingOutOfCheck(const Board& chess_board)
 	}
 
 	return king_out_of_check;
+}
+
+bool King::CaptureAttackingEnemyPiece(const Board& chess_board, const Piece* enemy_piece)
+{
+	if (enemy_piece == nullptr)
+	{
+		return false;
+	}
+
+	for (int c = COLUMN_A; c <= COLUMN_H; c++)
+	{
+		for (int r = ROW_1; r <= ROW_8; r++)
+		{
+			Piece* piece_on_square = chess_board.GetPieceFromBoard(c, r);
+
+			if (piece_on_square != nullptr)
+			{
+				if (piece_on_square->GetPieceColor() == GetPieceColor())
+				{
+					const VectorOfIntPairs attack_squares = piece_on_square->GetListOfAttacks();
+
+					for (const auto& attack : attack_squares)
+					{
+						if (attack.first == enemy_piece->GetColumn() && attack.second == enemy_piece->GetRow())
+						{
+							return true;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
+bool King::BlockAttackingEnemyPiece(const Board& chess_board, const Piece* enemy_piece)
+{
+	return false;
 }

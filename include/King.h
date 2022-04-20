@@ -18,6 +18,8 @@ private:
 	bool CastleQueenside(const Board&, const int&, const int&);
 	bool CastleKingside(const Board&, const int&, const int&);
 	bool MoveKingOutOfCheck(const Board&);
+	bool CaptureAttackingEnemyPiece(const Board&, const Piece*);
+	bool BlockAttackingEnemyPiece(const Board&, const Piece*);
 };
 
 #endif
