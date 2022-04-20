@@ -7,9 +7,6 @@ Chess game between two players on two different computers.
 Client                     |  Server
 :-------------------------:|:-------------------------:
 <img src="./images/starting-position.png" alt="drawing" width="600" />  |  <img src="./images/server-starting-position.png" alt="drawing" width="675" />
-<!-- ![](./images/starting-position.png =x300)  |  ![](./images/server-starting-position.png =300x) -->
-
-<!-- <img src="images/starting-position.png" width="300"><img src="images/server-starting-position.png" width="300"> -->
 
 
 It features all of the basic rules of chess which include: pawn-promotion, castling, enpassant capture, stalemate, and checkmate. The computers communicate using a TCP protocol. The chessboard is displayed using the console. It should be noted that this program was designed for Ubuntu machines and it uses Unicode symbols to display the different chess pieces.
@@ -35,4 +32,13 @@ You will need two physical computers or two virtual machines. Both machines need
    ```sh
    ./bin/client.exe
    ```
+   
+### Simple Example
+
+Client                     |  Server
+:-------------------------:|:-------------------------:
+<img src="./images/e2-e4.png" alt="drawing" width="600" />  |  <img src="./images/server-f7-f5.png" alt="drawing" width="600" />
+<img src="./images/d2-d4.png" alt="drawing" width="600" />  |  <img src="./images/server-g7-g5.png" alt="drawing" width="600" />
+<img src="./images/checkmate.png" alt="drawing" width="600" />
+
 
